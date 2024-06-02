@@ -25,8 +25,8 @@ class _InsertPageState extends State<UpdatePage> {
   late String _etkit;
   Color _color = Colors.green;
   DateTime _date = DateTime.now();
-  String _path1 = 'images/Araba_Anahtarı 1.jpg';
-  String _path2 = 'images/Araba_Anahtarı 2.jpg';
+  String _path1 = '';
+  String _path2 = '';
   String _tekrar = '00:00:00';
   String _hour = '00';
   String _minute = '00';
@@ -43,7 +43,7 @@ class _InsertPageState extends State<UpdatePage> {
     _tekrar = widget.database[5];
     _date = DateFormat("dd/MM/yyyy").parse(widget.database[6]);
     _path1 = widget.database[7];
-    _path1 = widget.database[8];
+    _path2 = widget.database[8];
   }
 
   void _updateTekrar() {
@@ -54,7 +54,7 @@ class _InsertPageState extends State<UpdatePage> {
 
   void _deleterow() {
     writer.deleteRow(widget.database[0], widget.database[1], widget.database[7],
-        widget.database[8]);
+        widget.database[8], _path1, _path2);
   }
 
   void _saveData() {
@@ -76,7 +76,7 @@ class _InsertPageState extends State<UpdatePage> {
     setState(() {
       if (index == 0) {
         _path1 = fileName;
-      } else {
+      } else if (index == 1) {
         _path2 = fileName;
       }
     });
@@ -111,13 +111,13 @@ class _InsertPageState extends State<UpdatePage> {
                     children: [
                       ImageInfos(
                         title: 'Ürün Eki',
-                        color: Color(0xFFC1007F),
+                        color: const Color(0xFFC1007F),
                         onImageSaved: (fileName) => _onImageSaved(fileName, 0),
                       ),
                       ImageInfos(
                         title: 'Yer Eki',
-                        color: Color(0xFFC1007F),
-                        onImageSaved: (fileName) => _onImageSaved(fileName, 0),
+                        color: const Color(0xFFC1007F),
+                        onImageSaved: (fileName) => _onImageSaved(fileName, 1),
                       ),
                     ],
                   ),
