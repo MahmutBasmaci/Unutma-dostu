@@ -10,6 +10,8 @@ import 'package:main_app/pages/welcome_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Set local location
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
