@@ -12,17 +12,20 @@ class NotificationManager {
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onSelectNotification: (String? payload) async {
-        // Handle notification tap here
+        if (payload != null) {
+          _rescheduleNotification(payload);
+        }
       },
     );
   }
 
   static void showNotification(
       String productName, DateTime date, String tekrar) async {
+    var timeParts = tekrar.split(":");
     var scheduledNotificationDateTime = date.add(Duration(
-      hours: int.parse(tekrar.split(":")[0]),
-      minutes: int.parse(tekrar.split(":")[1]),
-      seconds: int.parse(tekrar.split(":")[2]),
+      hours: int.parse(timeParts[0]),
+      minutes: int.parse(timeParts[1]),
+      seconds: int.parse(timeParts[2]),
     ));
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -39,7 +42,39 @@ class NotificationManager {
       'لا تنسى $productName',
       scheduledNotificationDateTime,
       platformChannelSpecifics,
-      payload: productName,
+      payload: '$productName:$tekrar',
+    );
+  }
+
+  static void _rescheduleNotification(String payload) async {
+    var payloadParts = payload.split(":");
+    if (payloadParts.length < 4) {
+      return;
+    }
+
+    var productName = payloadParts[0];
+    var timeParts = payloadParts.sublist(1, 4);
+    var scheduledNotificationDateTime = DateTime.now().add(Duration(
+      hours: int.parse(timeParts[0]),
+      minutes: int.parse(timeParts[1]),
+      seconds: int.parse(timeParts[2]),
+    ));
+
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your_channel_id', 'your_channel_name',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.schedule(
+      0,
+      'تذكير',
+      'لا تنسى $productName',
+      scheduledNotificationDateTime,
+      platformChannelSpecifics,
+      payload: payload,
     );
   }
 
@@ -48,7 +83,7 @@ class NotificationManager {
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
 
     for (var notification in notifications) {
-      if (notification.payload == productName) {
+      if (notification.payload?.startsWith(productName) ?? false) {
         await flutterLocalNotificationsPlugin.cancel(notification.id);
       }
     }

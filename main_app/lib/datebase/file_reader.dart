@@ -115,10 +115,8 @@ class FileReader {
     String csv = const ListToCsvConverter().convert(csvData);
     await file.writeAsString(csv);
     await uploadFileToFirebaseStorage(file, clinet);
-<<<<<<< HEAD
-    await deleteImages(clinet, path1, path2);
+
     NotificationManager.cancelNotification(firstColumnValue);
-=======
 
     // Delete images if paths are not the same
     if (oldPath1 != newPath1) {
@@ -127,7 +125,6 @@ class FileReader {
     if (oldPath2 != newPath2) {
       await deleteImage(clinet, oldPath2);
     }
->>>>>>> origin/main
   }
 
   // ignore: non_constant_identifier_names

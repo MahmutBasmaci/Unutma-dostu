@@ -695,8 +695,7 @@ packages:
       sha256: "3fe76ba4680787741688ee393e47b63417e8643816795e4eac01021683af1d84"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
-    version: "0.4.8"
+    version: "0.4.9"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -753,9 +752,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
-=======
-    version: "0.4.9"
->>>>>>> origin/main
   simple_gesture_detector:
     dependency: transitive
     description:
