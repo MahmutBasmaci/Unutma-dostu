@@ -103,7 +103,6 @@ class _InsertPageState extends State<InsertPage> {
                               color: const Color(0xFFC1007F),
                               onImageSaved: (fileName) =>
                                   _onImageSaved(fileName, 1))),
-                      //const Expanded(flex: 1, child: SizedBox()),
                     ],
                   ),
                   const SizedBox(height: 20),
